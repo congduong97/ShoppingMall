@@ -1,29 +1,39 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {View, Text, Alert, FlatList, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  View,
+  Text,
+  Alert,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ProductModal from './ProductModal';
 import {styles} from './style';
 import {ROUTE} from '../../navigator/routes';
+import database from '@react-native-firebase/database';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   useEffect(() => {
-    getProduct();
-    return () => {};
+    const productRef = database().ref('/products');
+    const loadingListener = productRef.on('value', snapshot => {
+      setLoading(true);
+      const list = [];
+      snapshot.forEach(function (childSnapshot) {
+        list.push(childSnapshot.val());
+      });
+      setProducts([...products, ...list]);
+      setLoading(false);
+    });
+    return () => {
+      productRef.off('value', loadingListener);
+    };
   }, []);
-
-  const getProduct = async () => {
-    try {
-      const response = await fetch('https://fakestoreapi.com/products?limit=5');
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      Alert.alert('SERVER IS ERROR !');
-    }
-  };
 
   const renderItem = ({item}) => {
     return (
@@ -35,7 +45,7 @@ const Product = () => {
         }}
         activeOpacity={0.9}
         style={styles.productItem}>
-        {!!item.title && <Text style={styles.productTitle}>{item.title}</Text>}
+        {!!item.name && <Text style={styles.productTitle}>{item.name}</Text>}
         {!!item.price && (
           <Text style={styles.productPrice}>
             Price: $<Text style={styles.productPriceNumber}>{item.price}</Text>
@@ -53,25 +63,34 @@ const Product = () => {
     return item.id + '';
   };
   const renderListEmpty = () => {
-    return <Text style={styles.emptyList}>have no prduct !</Text>;
+    if (!loading) {
+      return <Text style={styles.emptyList}>have no prduct !</Text>;
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => {
-          setVisible(true);
-        }}
-        style={styles.addProduct}>
-        <Text style={styles.addProductTxt}>+ Add new product</Text>
-      </TouchableOpacity>
-      <FlatList
-        contentContainerStyle={styles.contentContainerStyle}
-        style={styles.list}
-        renderItem={renderItem}
-        keyExtractor={renderKey}
-        data={products}
-        ListEmptyComponent={renderListEmpty()}
-      />
+      {loading ? (
+        <ActivityIndicator size={'large'} color={'blue'} />
+      ) : (
+        <>
+          <TouchableOpacity
+            onPress={() => {
+              setVisible(true);
+            }}
+            style={styles.addProduct}>
+            <Text style={styles.addProductTxt}>+ Add new product</Text>
+          </TouchableOpacity>
+          <FlatList
+            contentContainerStyle={styles.contentContainerStyle}
+            showsVerticalScrollIndicator={false}
+            style={styles.list}
+            renderItem={renderItem}
+            keyExtractor={renderKey}
+            data={products}
+            ListEmptyComponent={renderListEmpty()}
+          />
+        </>
+      )}
       <ProductModal visible={visible} setVisible={setVisible} />
     </SafeAreaView>
   );

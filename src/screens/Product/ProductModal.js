@@ -1,12 +1,29 @@
 import React, {useState} from 'react';
 import {View, Text, Modal, TouchableOpacity, TextInput} from 'react-native';
 import {styles} from './style';
+import database from '@react-native-firebase/database';
 
 const ProductModal = ({visible, setVisible}) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
 
+  const onSubmit = () => {
+    setVisible(false);
+    const key = database().ref().push().key;
+    database()
+      .ref('products/' + key)
+      .update({key, name, price, description})
+      .then(snapshot => {
+        console.log(snapshot);
+        setName('');
+        setPrice('');
+        setDescription('');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
   return (
     <Modal animationType="slide" visible={visible} transparent={true}>
       <View style={styles.productModalContainer}>
@@ -18,6 +35,7 @@ const ProductModal = ({visible, setVisible}) => {
               setName(text);
             }}
             style={styles.input}
+            value={name}
           />
           <Text style={styles.label}>Price</Text>
 
@@ -25,6 +43,7 @@ const ProductModal = ({visible, setVisible}) => {
             onChangeText={text => {
               setPrice(text);
             }}
+            value={price}
             style={styles.input}
           />
           <Text style={styles.label}>Description</Text>
@@ -33,6 +52,7 @@ const ProductModal = ({visible, setVisible}) => {
             onChangeText={text => {
               setDescription(text);
             }}
+            value={description}
             multiline={true}
             underlineColorAndroid="transparent"
           />
@@ -46,9 +66,7 @@ const ProductModal = ({visible, setVisible}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.productModalSubmit}
-              onPress={() => {
-                setVisible(false);
-              }}>
+              onPress={onSubmit}>
               <Text style={styles.productModalSubmitTxt}>Submit</Text>
             </TouchableOpacity>
           </View>

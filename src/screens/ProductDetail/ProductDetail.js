@@ -6,12 +6,11 @@ import {styles} from './style';
 
 const ProductDetail = () => {
   const route = useRoute();
-  console.log('route', route);
   const {data} = route.params;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        {!!data.title && <Text style={styles.title}>{data.title}</Text>}
+        {!!data.name && <Text style={styles.title}>{data.name}</Text>}
         {!!data.price && (
           <Text style={styles.price}>
             Price: $<Text style={styles.priceNumber}>{data.price}</Text>

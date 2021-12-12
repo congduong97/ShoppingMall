@@ -5,21 +5,24 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   addProduct: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    padding: 10,
     alignSelf: 'flex-end',
+    backgroundColor: '#5a8fe6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    margin: 16,
   },
   addProductTxt: {
-    textAlign: 'right',
     fontSize: 16,
+    color: 'white',
   },
   contentContainerStyle: {
     padding: 16,
+    paddingTop: 0,
   },
   list: {
-    marginTop: 16,
+    marginTop: 10,
   },
   productItem: {
     backgroundColor: 'white',
@@ -63,7 +66,6 @@ export const styles = StyleSheet.create({
   },
   productModalContent: {
     backgroundColor: 'white',
-    height: '60%',
     width: '70%',
     borderRadius: 10,
   },

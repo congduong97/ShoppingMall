@@ -8,7 +8,12 @@ const Tab = createMaterialTopTabNavigator();
 
 const RootNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarPosition: 'top',
+        animationEnabled: false,
+        lazy: true,
+      }}>
       <Tab.Screen name={ROUTE.HOME} component={HomeNavigator} />
       <Tab.Screen name={ROUTE.SHOP} component={ShopNavigator} />
     </Tab.Navigator>
