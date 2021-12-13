@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import ProductModal from './ProductModal';
 import {styles} from './style';
 import {ROUTE} from '../../navigator/routes';
@@ -19,6 +18,7 @@ const Product = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
+  
   useEffect(() => {
     const productRef = database().ref('/products');
     const loadingListener = productRef.on('value', snapshot => {
@@ -60,15 +60,16 @@ const Product = () => {
     );
   };
   const renderKey = item => {
-    return item.id + '';
+    return item.key;
   };
   const renderListEmpty = () => {
     if (!loading) {
       return <Text style={styles.emptyList}>have no prduct !</Text>;
     }
   };
+  console.log("product",products);
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size={'large'} color={'blue'} />
       ) : (
@@ -92,7 +93,7 @@ const Product = () => {
         </>
       )}
       <ProductModal visible={visible} setVisible={setVisible} />
-    </SafeAreaView>
+    </View>
   );
 };
 

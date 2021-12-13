@@ -1,4 +1,4 @@
 export const STACK_CONFIG = {
-  gestureEnabled: false,
+  gestureEnabled: true,
   headerShown: false,
 };

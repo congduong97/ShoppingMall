@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "864246396368",
+    "firebase_url": "https://demofirebase-15091-default-rtdb.firebaseio.com",
+    "project_id": "demofirebase-15091",
+    "storage_bucket": "demofirebase-15091.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864246396368:android:089ef0fdf0fd0708ed75d5",
+        "android_client_info": {
+          "package_name": "com.shoppingmall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "864246396368-sg6jkqs7khhsi2jhr1c05bmrmurbucu2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwTYv_DYkhMmUD0UdMX9gmiFCmX7PBeK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "864246396368-sg6jkqs7khhsi2jhr1c05bmrmurbucu2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "864246396368-inlsmudmajdglg4kmdcepn7mahskiipq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.ShoppingMall"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
